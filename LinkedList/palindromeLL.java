@@ -98,27 +98,71 @@ class Node
 
 class Palindrome
 {
+    
+    public static Node middle(Node node){
+        if(node==null || node.next==null)
+            return node;
+        Node slow,fast;
+        slow = fast = node;
+        while(fast!=null && fast.next!=null && fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+    
+    public static Node reverse(Node node){
+       if(node==null || node.next==null)
+            return node;
+        Node next = node.next;
+        Node finalNode = reverse(node.next);
+        next.next = node;
+        node.next = null;
+        return finalNode;
+    }
+    
     // Function to check if linked list is palindrome
-    boolean isPalindrome(Node head) 
-    {
-        Node dummy = head;
-        String temp = "";
-        while(dummy!=null){
-            char ch = (char)dummy.data;
-            temp = temp +ch;
-            dummy = dummy.next;
-        }
-        int i=0,j=temp.length()-1;
-        while(i<=j){
-            if(temp.charAt(i++)!=temp.charAt(j--))
-                return false;
-        }
+    // boolean isPalindrome(Node head) 
+    // {
+    //     Node dummy = head;
+    //     String temp = "";
+    //     while(dummy!=null){
+    //         char ch = (char)dummy.data;
+    //         temp = temp +ch;
+    //         dummy = dummy.next;
+    //     }
+    //     int i=0,j=temp.length()-1;
+    //     while(i<=j){
+    //         if(temp.charAt(i++)!=temp.charAt(j--))
+    //             return false;
+    //     }
         
+    //     return true;
+       
+       
+      
+    // }    
+    //optimal soln
+     boolean isPalindrome(Node head) 
+    {
+        if(head==null || head.next==null)
+            return true;
+        Node mid = middle(head);
+        mid.next = reverse(mid.next);
+        mid = mid.next;
+        Node temp = head;
+        while(mid!=null){
+            if(temp.data!=mid.data)
+                return false;
+            mid = mid.next;
+            temp = temp.next;
+        }
         return true;
        
        
       
     }    
+    
 }
 
 
